@@ -22,7 +22,25 @@ class App:
     
     def __init__(self, window):
         self.window = window
+        self.pageConfig = {}
+        window.events.loaded += self._on_window_loaded
     
+    def _getPageConfig(self,window):
+        return self._getJavaScriptVariable(window,"config")
+
+    def _getJavaScriptVariable(self, window, variableName):
+        #return window.evaluate_js("return "+ variableName +";", callback=None)
+        return window.evaluate_js(variableName, callback=None)
+    
+    def _on_window_loaded(self,window):
+       self.pageConfig = self._getPageConfig(window)
+       print("window loaded")
+       print("pageConfig:" + str(self.pageConfig), flush = True)
+       window.events.loaded -= self._on_window_loaded
+    
+    #-------------------------------------#
+    # bare mininmum application functions
+    #-------------------------------------#
     def quit(self):
         window.destroy()
         
@@ -32,10 +50,10 @@ class App:
     
 
 def run_shell_command(cmd):
-    print(f'Run shell command: {cmd}')
+    print(f'Run shell command: {cmd}', flush = True)
 
 def run_app_command(cmd):
-    print(f'Run app command: {cmd}')
+    print(f'Run app command: {cmd}', flush = True)
     match cmd:
         case 'quit':
             app.quit()
@@ -44,7 +62,7 @@ def run_app_command(cmd):
             
 
 def run_session_command(cmd):
-    print(f'Run session command: {cmd}')
+    print(f'Run session command: {cmd}', flush = True)
 
 
 # 
@@ -67,10 +85,10 @@ def link_handler(e):
         run_app_command(anchor_attributes["appcmd"])
         return
     elif 'sessioncmd' in anchor_attributes:
-        print(f'Run session command: {anchor_attributes["sessioncmd"]}')
+        run_app_command(anchor_attributes["sessioncmd"])
         return
     
-    print(f'Link target is {e["target"]["href"]}')
+    print(f'Link target is {e["target"]["href"]}', flush = True)
     
 def bindEventHandlers(window):
     anchors = window.dom.get_elements('a')
