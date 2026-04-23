@@ -42,7 +42,7 @@ class ConfigFile:
     def getConfig(self):
         data = json.load(self.file)
         # the user should be able to reread the file at any given point
-+       # and json.load runs to the end of the file without resetting
+        # and json.load runs to the end of the file without resetting
         # hence the reset here
         self.file.seek(0)
         return data

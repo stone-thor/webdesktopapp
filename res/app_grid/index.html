@@ -14,16 +14,30 @@
 <body>
 
 <script>
+    console.log("initjs")
+    document.addEventListener('pluginsinitialized', function() {
+        console.log("ran")
+        pywebview.api.getMenuEntries().then( 
+            function (result){ 
+                var span = document.getElementById('debug-out')
+                span.innerHTML = JSON.stringify(result)
+            }
+        )
+    })
+</script>
+
+<script>
     var config = {
         Left: 0,
         Top: 90,
         Width: 75,
         Height: 300,
-        plugin: ''
+        plugin: 'jsApi'
     };
 </script>
 
 <div class="bar">
+    <span id="debug-out" style="font-weight: bold"> FOO </span>
     <div class="sm"><a class="sm" title="close" href="" appCmd="quit">&Cross;</a></div>
 </div>
 <p>hello</p>

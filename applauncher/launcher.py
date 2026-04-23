@@ -2,10 +2,13 @@
 #
 # A simple application launcher
 #
-import applauncher.entry
+from applauncher.entry import Entry
 import subprocess
 
 class ApplicationLauncher:
 
     def launch(self, entry):
-        return subprocess.run(entry.execute)
+        if (type(entry) is Entry):
+            return subprocess.run(entry.execute)
+        elif (type(entry is dict)):
+            return subprocess.run(entry["execute"])
