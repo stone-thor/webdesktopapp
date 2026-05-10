@@ -8,19 +8,59 @@
     <style type="text/css">      
       @import url("default.css");
     </style>
-
+    <script src="./template.js"></script>
 </head>
 
 <body>
 
 <script>
-    console.log("initjs")
+    /*let _customerTemplate= "<tr class='{{Color}}'>"+
+        "<td>{{CustomerName}}  <div id='_{{Color}}'>  </div> </td>"+
+    "</tr>"
+
+    let _fooTemplate = "<div onClick='console.log({{n}})'>{{n}}</div>";
+
+    myObject.customers.forEach( function(customer) {
+        document.getElementById("id01").innerHTML+= applyTemplate(_customerTemplate, customer)
+    
+        if (customer.foo !== undefined && customer.foo!== null){
+            customer.foo.forEach( (it) => {
+	          
+            document.getElementById("_red").innerHTML
+                += applyTemplate(_fooTemplate,it)
+            }) 
+        }
+    })*/
+    
+    let _categoryTemplate = "<div class='header' id='{{id}}'>" 
+            + "<span class='heading'>{{label}}</span>"
+            + "</div>"
+
+    let _itemTemplate = "<div class='third' onClick='pywebview.api.run_shell_command(\"{{command}}\", true)'>"
+            + "    <span class='label'>{{label}}</span>"
+            + "</div>"
+    
+
     document.addEventListener('pluginsinitialized', function() {
-        console.log("ran")
         pywebview.api.getMenuEntries().then( 
             function (result){ 
                 var span = document.getElementById('debug-out')
                 span.innerHTML = JSON.stringify(result)
+                
+                var app_grid_el = document.getElementById('app_grid')
+                result.menu.categories.forEach( function(category) {
+                        app_grid_el.innerHTML += applyTemplate(_categoryTemplate, category)
+                        
+                        var category_el = document.getElementById(category.id)
+                        if ( category.items !== undefined && category.items!== null){
+                                category.items.forEach( function (item){
+                                    category_el.innerHTML += applyTemplate(_itemTemplate, item, true)
+                                }
+                            )
+                        }
+                        
+                }
+                )
             }
         )
     })
@@ -30,7 +70,7 @@
     var config = {
         Left: 0,
         Top: 90,
-        Width: 75,
+        Width: 300,
         Height: 300,
         plugin: 'jsApi'
     };
@@ -38,11 +78,28 @@
 
 <div class="bar">
     <span id="debug-out" style="font-weight: bold"> FOO </span>
-    <div class="sm"><a class="sm" title="close" href="" appCmd="quit">&Cross;</a></div>
+    <div class="sm"><a class="sm" title="close" href="" onClick="pywebview.api.run_app_command('quit')">&Cross;</a></div>
+    <div id="app_grid">
+    </div>
 </div>
-<p>hello</p>
-
 </body>
 
 
 </html>
+
+
+<!--
+
+        <div class="header">
+            <span class="heading">Faru</span> 
+            <div class="third">
+                <span class="label">Foo</span> 
+            </div>
+            <div class="third">
+                <span class="label">Bar</span> 
+            </div>
+            <div class="third">
+                <span class="label">Baz</span> 
+            </div>
+        </div>
+-->

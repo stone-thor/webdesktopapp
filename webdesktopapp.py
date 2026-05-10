@@ -48,13 +48,16 @@ class App:
     def _on_window_loaded(self,window):
        self.pageConfig = self._getPageConfig(window)
 
+       #self._bindEventHandlers(window)
+       window.expose(self.run_app_command)
+    
        print("window loaded")
        print("pageConfig:" + str(self.pageConfig), flush = True)
      
        window.move(self.pageConfig["Left"], self.pageConfig["Top"])
        window.resize(self.pageConfig["Width"], self.pageConfig["Height"])
 
-       self.initPlugins()
+       self._initPlugins()
        
        self.window.run_js("""
             document.dispatchEvent(document.pluginsinitializedevent);
@@ -63,10 +66,33 @@ class App:
 
        window.events.loaded -= self._on_window_loaded
     
-    def initPlugins(self):
+    def _initPlugins(self):
         import plugins
         plugins.init(self)
-    
+        
+    def _bindEventHandlers(self, window):
+        anchors = window.dom.get_elements('a')
+        for anchor in anchors:
+            anchor.events.click += DOMEventHandler(self._link_handler, prevent_default=True)    
+
+    def _link_handler(self, domElement):
+        anchor_attributes = domElement['target']['attributes']
+        if 'appcmd' not in anchor_attributes:
+            raise ValueError
+            
+        self._run_app_command(anchor_attributes["appcmd"])
+        return
+
+    def run_app_command(self, cmd):
+        print(f'Run app command: {cmd}', flush = True)
+        match cmd:
+            case 'quit':
+                self.quit()
+            case 'hide':
+                self.hide()
+            case _:
+                raise ValueError("Command should be one of: 'hide', 'quit'")
+
     #-------------------------------------#
     # bare mininmum application functions
     #-------------------------------------#
@@ -76,22 +102,6 @@ class App:
     def hide(self):
         window.hide()
     
-
-def run_shell_command(cmd):
-    print(f'Run shell command: {cmd}', flush = True)
-
-def run_app_command(cmd):
-    print(f'Run app command: {cmd}', flush = True)
-    match cmd:
-        case 'quit':
-            app.quit()
-        case 'hide':
-            app.hide()
-            
-def run_session_command(cmd):
-    print(f'Run session command: {cmd}', flush = True)
-
-
 # 
 # the anchor element should have one of these attributes
 #   
@@ -117,10 +127,6 @@ def link_handler(e):
     
     print(f'Link target is {e["target"]["href"]}', flush = True)
     
-def bindEventHandlers(window):
-    anchors = window.dom.get_elements('a')
-    for anchor in anchors:
-        anchor.events.click += DOMEventHandler(link_handler, prevent_default=True)    
 
 if __name__ == '__main__':
     
@@ -137,9 +143,10 @@ if __name__ == '__main__':
     Global.APP_PATH = APP_PATH
     Global.RESOURCE_DIR = RESOURCE_DIR
     
-    window = webview.create_window('Hello world', module_index, width=300, height=200, min_size=(0, 0), frameless=True)
+    window = webview.create_window('Hello world', module_index, width=300, height=200, min_size=(0, 0), frameless=True, transparent = True)
     app = App(window, module_name, module_path, module_index)
-    webview.start(bindEventHandlers, window, debug=True)
+    #webview.start(bindEventHandlers, window, debug=True)
+    webview.start(func = None, debug=True)
     
     
     

@@ -20,7 +20,7 @@
 #
 #
 
-import sys, os, urllib, string
+import sys, os, urllib, string, subprocess
 
 import appconfig.configfile 
 #import PyQt5
@@ -55,7 +55,19 @@ class javascriptObject():
         print("config:" + str(config))
         return config
 
-
+    def run_shell_command(self, command, escape = False):
+        print("command" + command)
+        print("escape" + str(escape))
+        commandToRun =  command.replace("apos;","'") if escape else command
+        
+        
+        #commandToRun = commandToRun.replace(" ","\ ")
+        print("commandToRun '" + commandToRun +"'")
+        return subprocess.run( "powershell \"" + commandToRun+"\"", shell=True)
+    
+    def run_session_command(self, command):
+        print ("session command " + command)
+        
 def init(app):
     
     jsObj = javascriptObject()
@@ -63,6 +75,8 @@ def init(app):
     print("func name" + jsObj.getMenuEntries.__name__ )
     
     app.window.expose(jsObj.getMenuEntries)
+    app.window.expose(jsObj.run_shell_command)
+
     
 #    app.window.run_js(""" 
 #            pywebview.api.getMenuEntries().then( 
