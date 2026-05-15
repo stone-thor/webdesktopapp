@@ -1,0 +1,42 @@
+{
+	"menu": {
+		"categories": [
+			{
+				"items": [
+					{
+						"label": "Radio Bob",
+						"command": "start shell:AppsFolder\\www.radiobob.de-F8A53BF_93b4ppkxt9ys6!App"
+					},
+					{
+						"label": "tagesschau",
+						"command": "explorer 'C:\\Users\\cp\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\tagesschau.lnk'"
+					},
+					{
+						"label": "GitHub Docs",
+						"command": "explorer 'C:\\Users\\cp\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\GitHub Docs.lnk'"
+					}
+				],
+				"id": "webapps",
+				"label": "Web Apps"
+			},
+			{
+				"items": [
+					{
+						"label": "Weather",
+						"command": "start shell:AppsFolder\\Microsoft.BingWeather_8wekyb3d8bbwe!App"
+					},
+					{
+						"label": "Notepad",
+						"command": "explorer 'C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Accessories\\Notepad.lnk'"
+					},
+					{
+						"label": "Camera",
+						"command": "start shell:AppsFolder\\Microsoft.WindowsCamera_8wekyb3d8bbwe!App"
+					}
+				],
+				"id": "utils",
+				"label": "Utilities"
+			}
+		]
+	}
+}
