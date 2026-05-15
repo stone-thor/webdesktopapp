@@ -23,7 +23,7 @@ class ConfigFile:
 
         if (not os.path.exists(basepath)):
             print( "creating dir: " + basepath )
-            mkdir(basepath)
+            os.mkdir(basepath)
         print( "dir exists: " + basepath )
         
         # if file does not exist
