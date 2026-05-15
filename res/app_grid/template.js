@@ -1,6 +1,6 @@
 
 function escapeString(s){
-    return s.replaceAll("'","apos;").replaceAll("\\","\\\\")
+    return s.replaceAll("'","apos;").replaceAll("\"","quot;").replaceAll("\\","\\\\")
 }
 
 function applyTemplate( _template, obj, escapeValue = false ){

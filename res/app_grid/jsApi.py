@@ -58,12 +58,13 @@ class javascriptObject():
     def run_shell_command(self, command, escape = False):
         print("command" + command)
         print("escape" + str(escape))
-        commandToRun =  command.replace("apos;","'") if escape else command
+        commandToRun =  command.replace("apos;","\'").replace("quot;","\"").replace("\\\\","\\") if escape else command
         
         
         #commandToRun = commandToRun.replace(" ","\ ")
         print("commandToRun '" + commandToRun +"'")
-        return subprocess.run( "powershell \"" + commandToRun+"\"", shell=True)
+        #return subprocess.run( "powershell \"" + commandToRun+"\"", shell=True)
+        return subprocess.run(commandToRun, shell=True)
     
     def run_session_command(self, command):
         print ("session command " + command)
