@@ -101,7 +101,7 @@ if __name__ == '__main__':
     Global.APP_PATH = APP_PATH
     Global.RESOURCE_DIR = RESOURCE_DIR
     
-    window = webview.create_window('Web Desktop App', module_index, width=300, height=200, min_size=(0, 0), frameless=True, transparent = True)
+    window = webview.create_window('Web Desktop App', module_index, width=300, height=200, min_size=(0, 0), frameless=True, transparent=True, easy_drag=False)
     app = App(window, module_name, module_path, module_index)
     webview.start(func=None, debug=False)
     
