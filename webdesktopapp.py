@@ -17,8 +17,6 @@ from util.sequence import containsMoreThanOne
 
 from operator import itemgetter 
 
-first = itemgetter(0)
-
 APP_PATH = os.path.dirname(os.path.realpath( __file__ ))
 RESOURCE_DIR = "res"
 INDEX_FILE_NAME = "index.html"
@@ -42,13 +40,11 @@ class App:
         return self._getJavaScriptVariable(window,"config")
 
     def _getJavaScriptVariable(self, window, variableName):
-        #return window.evaluate_js("return "+ variableName +";", callback=None)
         return window.evaluate_js(variableName, callback=None)
     
     def _on_window_loaded(self,window):
        self.pageConfig = self._getPageConfig(window)
 
-       #self._bindEventHandlers(window)
        window.expose(self.run_app_command)
     
        print("window loaded")
@@ -70,19 +66,6 @@ class App:
         import plugins
         plugins.init(self)
         
-    def _bindEventHandlers(self, window):
-        anchors = window.dom.get_elements('a')
-        for anchor in anchors:
-            anchor.events.click += DOMEventHandler(self._link_handler, prevent_default=True)    
-
-    def _link_handler(self, domElement):
-        anchor_attributes = domElement['target']['attributes']
-        if 'appcmd' not in anchor_attributes:
-            raise ValueError
-            
-        self._run_app_command(anchor_attributes["appcmd"])
-        return
-
     def run_app_command(self, cmd):
         print(f'Run app command: {cmd}', flush = True)
         match cmd:
@@ -101,32 +84,7 @@ class App:
         
     def hide(self):
         window.hide()
-    
-# 
-# the anchor element should have one of these attributes
-#   
-#   execCmd: execute a shell command, 'vlc', 'firefox', 'c:\games\gtr\gtr.exe'
-#   appCmd: run a command concerning the application itself: something like: 'quit', 'hide', 'reload'
-#   sessionCmd: run a command, controlling the desktop session or the os: 'logout', 'reboot', 'shutdown'
-#
-def link_handler(e):
-    anchor_attributes = e['target']['attributes']
-    print(anchor_attributes)
-    if containsMoreThanOne(list(anchor_attributes.keys()), ["execcmd","appcmd","sessioncmd"]):
-        raise ValueError
-        
-    if 'execcmd' in anchor_attributes:
-        run_shell_command(anchor_attributes["execcmd"])
-        return
-    elif 'appcmd' in anchor_attributes:
-        run_app_command(anchor_attributes["appcmd"])
-        return
-    elif 'sessioncmd' in anchor_attributes:
-        run_app_command(anchor_attributes["sessioncmd"])
-        return
-    
-    print(f'Link target is {e["target"]["href"]}', flush = True)
-    
+
 
 if __name__ == '__main__':
     
@@ -143,10 +101,7 @@ if __name__ == '__main__':
     Global.APP_PATH = APP_PATH
     Global.RESOURCE_DIR = RESOURCE_DIR
     
-    window = webview.create_window('Hello world', module_index, width=300, height=200, min_size=(0, 0), frameless=True, transparent = True)
+    window = webview.create_window('Web Desktop App', module_index, width=300, height=200, min_size=(0, 0), frameless=True, transparent = True)
     app = App(window, module_name, module_path, module_index)
-    #webview.start(bindEventHandlers, window, debug=True)
-    webview.start(func = None, debug=True)
-    
-    
+    webview.start(func=None, debug=False)
     

@@ -7,15 +7,11 @@ As this is a proof of concept, it is still rough around the edges.
 
 ## TODOs
 
- - [ ] refactor all remaining plugins 
+ - [ ] refactor all remaining plugins from [webkit_app_bar](https://github.com/codepage/webkit_app_bar)
  
 ### pywebview
  - [ ] transparent windows under msft windows (pywebview thinks this is not possible)
  
-### app_grid
- - [ ] search / filter application grid with search / filter field
- - [ ] make `template.js` a proper ecmasript-module
-
 ---
 
 ## run application 
