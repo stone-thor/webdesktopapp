@@ -1,0 +1,42 @@
+{
+	"menu": {
+		"categories": [
+			{
+				"items": [
+					{
+						"label": "Firefox ESR",
+						"command": "firefox-esr"
+					},
+					{
+						"label": "tagesschau",
+						"command": "chromium 'www.tagesschau.de'"
+					},
+					{
+						"label": "Konqueror",
+						"command": "konqueror"
+					}
+				],
+				"id": "internet",
+				"label": "Internet"
+			},
+			{
+				"items": [
+					{
+						"label": "Opt (shared)",
+						"command": "dolphin /mnt/opt/"
+					},
+					{
+						"label": "Kate",
+						"command": "kate"
+					},
+					{
+						"label": "Okular",
+						"command": "okular"
+					}
+				],
+				"id": "utils",
+				"label": "Utilities"
+			}
+		]
+	}
+}

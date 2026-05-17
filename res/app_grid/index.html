@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+
+<head>
+	<title>app_bar</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />    
+    <meta http-equiv="Content-Language" content="en-us">    
+
+    <style type="text/css">      
+      @import url("default.css");
+    </style>
+    <script src="./template.js"></script>
+</head>
+
+<body>
+
+<script>
+    let _categoryTemplate = "<div class='header' id='{{id}}'>" 
+            + "<span class='heading'>{{label}}</span>"
+            + "</div>"
+
+    let _itemTemplate = "<div class='third' onClick='pywebview.api.run_shell_command(\"{{command}}\", true)'>"
+            + "    <span class='label'>{{label}}</span>"
+            + "</div>"
+    
+
+    document.addEventListener('pluginsinitialized', function() {
+        pywebview.api.getMenuEntries().then( 
+            function (result){ 
+                // get debug level here: see https://github.com/stone-thor/webdesktopapp/issues/1
+                if (false) {
+                    var span = document.getElementById('debug-out')
+                    span.innerHTML = JSON.stringify(result)
+                }
+                
+                var app_grid_el = document.getElementById('app_grid')
+                result.menu.categories.forEach( function(category) {
+                        app_grid_el.innerHTML += applyTemplate(_categoryTemplate, category)
+                        
+                        var category_el = document.getElementById(category.id)
+                        if (category.items !== undefined && category.items!== null){
+                            category.items.forEach( function (item){
+                                    category_el.innerHTML += applyTemplate(_itemTemplate, item, true)
+                                }
+                            )
+                        }    
+                    }
+                )
+            }
+        )
+    })
+</script>
+
+<script>
+    var config = {
+        Left: 0,
+        Top: 90,
+        Width: 300,
+        Height: 300,
+        plugin: 'jsApi'
+    };
+</script>
+
+<div class="bar">
+    <span id="debug-out" class="display-none"> FOO </span>
+    <div class="sm"><a class="sm" title="close" href="" onClick="pywebview.api.run_app_command('quit')">&Cross;</a></div>
+    <div id="app_grid">
+    </div>
+</div>
+</body>
+
+
+</html>

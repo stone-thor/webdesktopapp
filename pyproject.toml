@@ -1,0 +1,10 @@
+#[build-system]
+#requires = ["hatchling"]
+#build-backend = "hatchling.build"
+
+[project]
+name = "webdesktopapp"
+version = "0.5.0"
+description = "This is a proof of concept for a reimplementation of webkit_app_bar using pywebview"
+readme = "README.md"
+requires-python = ">=3.12.10"
