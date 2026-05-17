@@ -14,24 +14,6 @@
 <body>
 
 <script>
-    /*let _customerTemplate= "<tr class='{{Color}}'>"+
-        "<td>{{CustomerName}}  <div id='_{{Color}}'>  </div> </td>"+
-    "</tr>"
-
-    let _fooTemplate = "<div onClick='console.log({{n}})'>{{n}}</div>";
-
-    myObject.customers.forEach( function(customer) {
-        document.getElementById("id01").innerHTML+= applyTemplate(_customerTemplate, customer)
-    
-        if (customer.foo !== undefined && customer.foo!== null){
-            customer.foo.forEach( (it) => {
-	          
-            document.getElementById("_red").innerHTML
-                += applyTemplate(_fooTemplate,it)
-            }) 
-        }
-    })*/
-    
     let _categoryTemplate = "<div class='header' id='{{id}}'>" 
             + "<span class='heading'>{{label}}</span>"
             + "</div>"
@@ -44,22 +26,24 @@
     document.addEventListener('pluginsinitialized', function() {
         pywebview.api.getMenuEntries().then( 
             function (result){ 
-                var span = document.getElementById('debug-out')
-                span.innerHTML = JSON.stringify(result)
+                // get debug level here: see https://github.com/stone-thor/webdesktopapp/issues/1
+                if (false) {
+                    var span = document.getElementById('debug-out')
+                    span.innerHTML = JSON.stringify(result)
+                }
                 
                 var app_grid_el = document.getElementById('app_grid')
                 result.menu.categories.forEach( function(category) {
                         app_grid_el.innerHTML += applyTemplate(_categoryTemplate, category)
                         
                         var category_el = document.getElementById(category.id)
-                        if ( category.items !== undefined && category.items!== null){
-                                category.items.forEach( function (item){
+                        if (category.items !== undefined && category.items!== null){
+                            category.items.forEach( function (item){
                                     category_el.innerHTML += applyTemplate(_itemTemplate, item, true)
                                 }
                             )
-                        }
-                        
-                }
+                        }    
+                    }
                 )
             }
         )
@@ -77,7 +61,7 @@
 </script>
 
 <div class="bar">
-    <span id="debug-out" style="font-weight: bold"> FOO </span>
+    <span id="debug-out" class="display-none"> FOO </span>
     <div class="sm"><a class="sm" title="close" href="" onClick="pywebview.api.run_app_command('quit')">&Cross;</a></div>
     <div id="app_grid">
     </div>
@@ -86,20 +70,3 @@
 
 
 </html>
-
-
-<!--
-
-        <div class="header">
-            <span class="heading">Faru</span> 
-            <div class="third">
-                <span class="label">Foo</span> 
-            </div>
-            <div class="third">
-                <span class="label">Bar</span> 
-            </div>
-            <div class="third">
-                <span class="label">Baz</span> 
-            </div>
-        </div>
--->

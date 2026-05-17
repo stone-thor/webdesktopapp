@@ -86,3 +86,11 @@ a.sm:hover {
     top: calc(50% - var(--grid-item-font-size)/2 );
     position:relative;
 }
+
+#debug-out{
+    font-weight: bold
+}
+
+.display-none{
+    display:none;
+}

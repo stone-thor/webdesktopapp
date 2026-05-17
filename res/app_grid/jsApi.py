@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  This file is part of Webkit App Bar.
+#  This file is part of Webdesktopapp
 #
 #  Copyright 2011-2017 xDaks <http://xdaks.deviantart.com/>
 #
@@ -23,27 +23,6 @@
 import sys, os, urllib, string, subprocess
 
 import appconfig.configfile 
-#import PyQt5
-#from PyQt5 import QtCore, QtGui
-#from PyQt5.QtCore import Qt, QUrl
-#from PyQt5.QtGui import QPalette
-#from PyQt5.QtWidgets import QWidget, QApplication
-#from subprocess import Popen
-
-
-#class javascriptObject(QtCore.QObject):
-    #@QtCore.pyqtSlot(str)
-    #def command(self, cmd):
-    #    self.browser._on_navigation(QUrl(cmd))
-
-    #def _pyVersion(self):
-    #    return sys.version
-
-    #def __del__(self):
-    #    print('javascriptObject destroy')
-
-    #pyVersion = QtCore.pyqtProperty(str, fget=_pyVersion)
-#jsObj = None
 
 class javascriptObject():
     
@@ -61,42 +40,17 @@ class javascriptObject():
         commandToRun =  command.replace("apos;","\'").replace("quot;","\"").replace("\\\\","\\") if escape else command
         
         
-        #commandToRun = commandToRun.replace(" ","\ ")
         print("commandToRun '" + commandToRun +"'")
-        #return subprocess.run( "powershell \"" + commandToRun+"\"", shell=True)
         return subprocess.run(commandToRun, shell=True)
     
     def run_session_command(self, command):
         print ("session command " + command)
         
 def init(app):
-    
     jsObj = javascriptObject()
-    
-    print("func name" + jsObj.getMenuEntries.__name__ )
     
     app.window.expose(jsObj.getMenuEntries)
     app.window.expose(jsObj.run_shell_command)
 
-    
-#    app.window.run_js(""" 
-#            pywebview.api.getMenuEntries().then( 
-#                function (result){ 
-#                    var span = document.getElementById('debug-out')
-#                    span.innerHTML = JSON.stringify(result)
-#                }
-#            )
-#    """)
-    
-    # create >>app<< object callable from javascript
-    #m = browser.web_view.page().mainFrame()
-
-    #global jsObj
-    #if jsObj != None:
-    #    jsObj.deleteLater()
-
-    #jsObj = javascriptObject()
-    #jsObj.browser = browser
-    #m.addToJavaScriptWindowObject("app", jsObj)
     print('jsObject init')
 
